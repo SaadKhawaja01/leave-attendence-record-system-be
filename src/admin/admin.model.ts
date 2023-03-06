@@ -3,10 +3,10 @@ import { IsNotEmpty } from "class-validator";
 import { IAdminSignIn } from "./admin.dto";
 
 export class adminSignIn implements IAdminSignIn{
-    @ApiProperty()
+    @ApiProperty({default:"admin"})
     @IsNotEmpty()
-    adminId: string;
-    @ApiProperty()
+    username: string;
+    @ApiProperty({default:"password"})
     @IsNotEmpty()
     password: string;
     

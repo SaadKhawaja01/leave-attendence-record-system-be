@@ -1,5 +1,5 @@
 
 export interface IAdminSignIn {
-adminId: string;
+username: string;
 password: string;
 }

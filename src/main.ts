@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const config = new DocumentBuilder()
+  const config = new DocumentBuilder().addBearerAuth()
   .setTitle('Leave-Attendence-Record-System')
   .setDescription('My University Project')
   .setVersion('1.0')

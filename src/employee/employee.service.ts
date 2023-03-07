@@ -9,12 +9,7 @@ import { EmployeeCreate, EmployeePatch } from './employee.model';
 
 @Injectable()
 export class EmployeeService {
- 
-
   async findAll(): Promise<Employee[]> {
-
-
-
     return Employee.find();
   }
 
@@ -23,11 +18,17 @@ export class EmployeeService {
   }
 
   async create(data: EmployeeCreate): Promise<any> {
+    const found = await Employee.findOneBy({ contact: data.contact });
+    if (found) {
+      throw new HttpException(
+        'employee already registerd with this number',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
- 
-    const dep =await Department.findOneBy({id:data.departmentId});
-    if(!dep){
-      throw new HttpException('Department not found',HttpStatus.NOT_FOUND);
+    const dep = await Department.findOneBy({ id: data.departmentId });
+    if (!dep) {
+      throw new HttpException('Department not found', HttpStatus.NOT_FOUND);
     }
 
     const employee = new Employee();

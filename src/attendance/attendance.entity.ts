@@ -1,26 +1,18 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
 @Entity()
-export class Employee extends BaseEntity {
+export class Attendance extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+  @Column()
+  employeeId: string;
+  @Column()
+  attendanceDate: Date;
 
   @Column()
-  name: string;
-
+  loginTime: Date;
   @Column()
-  password: string;
-
-  @Column({unique:true})
-  contact: string;
-
-
+  logoutTime: Date;
   @Column()
-  salary: number;
-
-
-  @Column()
-  departmentId: string;
-
-
+  workingHours: number;
 }

@@ -11,7 +11,7 @@ export class EmployeeCreate implements IEmployeeCreate {
   @IsNotEmpty()
   @IsString()
   password: string;
-  @ApiProperty({ default: 'string@abc.com' })
+  @ApiProperty({ default: '0300-1234789' })
   @IsNotEmpty()
   @IsEmail()
   contact: string;
@@ -31,7 +31,7 @@ export class EmployeePatch implements IEmployeePatch {
   @ApiProperty({ default: 'Saad' })
   @IsString()
   password: string;
-  @ApiProperty({ default: 'string@abc.com' })
+  @ApiProperty({ default: '0300-1234789' })
   @IsEmail()
   contact: string;
   @ApiProperty({ default: '89703343-3b10-4e51-9966-8d21c662f4a9' })

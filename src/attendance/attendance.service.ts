@@ -49,33 +49,66 @@ export class AttendanceService {
       throw new HttpException('Wrong Employee Id', HttpStatus.NOT_FOUND);
     }
 
-    //also check for already attendance
+    //to prevent dublication
+    const attendanceRecords = await Attendance.findBy({
+      employeeId: employee.id,
+    });
+    const todayRecord = attendanceRecords.map((record) => {
+      let recDate = record.attendanceDate.toISOString().split('T')[0];
+      const newDate = new Date().toISOString().split('T')[0];
+      return recDate === newDate;
+    });
 
+    if (todayRecord[0] == true) {
+      throw new HttpException(
+        'already punched',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    //to save on db
     const attendance = new Attendance();
     attendance.employeeId = request.id;
     attendance.attendanceDate = new Date();
     attendance.loginTime = new Date();
     await attendance.save();
-    return attendance;
+
+    //response preparation
+    const toResponse = {
+      employeeID: attendance.employeeId,
+      attendanceDate: attendance.attendanceDate,
+      loginTime: attendance.loginTime.toTimeString(),
+    };
+    return toResponse;
   }
 
   async logoutTime(request: Employee) {
-    const attendanceRec = await Attendance.findBy({
+    //to find records
+    const attendanceRecords = await Attendance.findBy({
       employeeId: request.id,
     });
-    if (!attendanceRec) {
+    const todayRecord = attendanceRecords.filter((record) => {
+      let recDate = record.attendanceDate.toISOString().split('T')[0];
+      const newDate = new Date().toISOString().split('T')[0];
+      return recDate === newDate;
+    });
+
+    if (todayRecord.length == 0) {
       throw new HttpException('Record not found', HttpStatus.NOT_FOUND);
     }
 
-    const filterdRec = attendanceRec.filter((rec) => {
-      const parts = rec.attendanceDate.toDateString().split(' ');
-      const today = new Date().toDateString().split(' ');
-      if (parts[2] == today[2] && parts[3] == today[3]) {
-        return rec;
-      }
-    });
+    // const filterdRec = attendanceRec.filter((rec) => {
+    //   const parts = rec.attendanceDate.toDateString().split(' ');
+    //   const today = new Date().toDateString().split(' ');
+    //   if (parts[2] == today[2] && parts[3] == today[3]) {
+    //     return rec;
+    //   }
+    // });
 
-    const record = await Attendance.findOneBy({ id: filterdRec[0].id });
+    // const today = new Date().toDateString().split(' ');
+
+    //to save
+    const record = await Attendance.findOneBy({ id: todayRecord[0].id });
     record.logoutTime = new Date();
     await record.save();
 
@@ -86,6 +119,7 @@ export class AttendanceService {
     // attendance.attendanceDate = new Date();
     // attendance.loginTime = new Date();
     // await attendance.save();
-    return record;
+    // return record;
+    return todayRecord;
   }
 }

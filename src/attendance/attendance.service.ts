@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { IsDate } from 'class-validator';
 import { IJwtPayload, JwtSecret } from 'src/core/guards/jwt.guard';
 import { Employee } from 'src/employee/employee.entity';
+import { Between } from 'typeorm';
 import { Attendance } from './attendance.entity';
 import { changePassword, SignIn } from './attendance.model';
 
@@ -108,5 +109,27 @@ export class AttendanceService {
 
     await record.save();
     return record;
+  }
+
+  async attendance(request: Employee, fromDate: Date, toDate: Date) {
+    const attendanceRecords = await Attendance.findBy({
+      employeeId: request.id,
+      attendanceDate: fromDate && toDate && Between(fromDate, toDate),
+    });
+
+    return attendanceRecords;
+  }
+
+  async workingHours(request: Employee, fromDate: Date, toDate: Date) {
+    var workedHours = 0;
+    const attendanceRecords = await Attendance.findBy({
+      employeeId: request.id,
+      attendanceDate: fromDate && toDate && Between(fromDate, toDate),
+    });
+
+    attendanceRecords.forEach((record) => {
+      workedHours += parseFloat(parseFloat(record.workingHours).toFixed(1));
+    });
+    return { WokedHours: workedHours };
   }
 }

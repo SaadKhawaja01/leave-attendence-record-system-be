@@ -97,29 +97,16 @@ export class AttendanceService {
       throw new HttpException('Record not found', HttpStatus.NOT_FOUND);
     }
 
-    // const filterdRec = attendanceRec.filter((rec) => {
-    //   const parts = rec.attendanceDate.toDateString().split(' ');
-    //   const today = new Date().toDateString().split(' ');
-    //   if (parts[2] == today[2] && parts[3] == today[3]) {
-    //     return rec;
-    //   }
-    // });
-
-    // const today = new Date().toDateString().split(' ');
-
     //to save
     const record = await Attendance.findOneBy({ id: todayRecord[0].id });
     record.logoutTime = new Date();
+    const timeDiff = Math.abs(
+      record.logoutTime.getTime() - record.loginTime.getTime(),
+    );
+    const hoursDiff = timeDiff / (1000 * 60 * 60);
+    record.workingHours = hoursDiff.toString();
+
     await record.save();
-
-    //also save total worked hours
-
-    // const attendance = new Attendance();
-    // attendance.employeeId = request.id;
-    // attendance.attendanceDate = new Date();
-    // attendance.loginTime = new Date();
-    // await attendance.save();
-    // return record;
-    return todayRecord;
+    return record;
   }
 }

@@ -9,13 +9,9 @@ export class Attendance extends BaseEntity {
   @Column()
   attendanceDate: Date;
 
-  @Column(
-    // { type: 'time' }
-    )
+  @Column()
   loginTime: Date;
-  @Column(
-    // { type: 'time' }
-    )
+  @Column()
   logoutTime: Date;
   @Column()
   workingHours: string;

@@ -1,0 +1,28 @@
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+
+@Entity()
+export class Leave extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
+  employeeId: string;
+
+  @Column()
+  applcationDate: Date;
+
+  @Column()
+  allowedLeaves: number;
+
+  @Column()
+  consumedLeaves: number;
+
+  @Column()
+  description: string;
+
+  @Column('date', { array: true })
+  leaveDates: Date[];
+
+  @Column()
+  status: string;
+}

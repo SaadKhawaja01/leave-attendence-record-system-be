@@ -14,6 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config/dist';
 import { Attendance } from './attendance/attendance.entity';
+import { LeaveModule } from './leave/leave.module';
 
 const DB = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -43,6 +44,7 @@ const DB = TypeOrmModule.forRoot({
       },
       inject: [ConfigService],
     }),
+    LeaveModule,
   ],
   controllers: [AppController],
 

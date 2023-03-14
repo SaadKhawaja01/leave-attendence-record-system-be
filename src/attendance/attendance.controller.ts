@@ -5,12 +5,11 @@ import { JwtGuard } from 'src/core/guards/jwt.guard';
 import { changePassword, SignIn } from './attendance.model';
 import { AttendanceService } from './attendance.service';
 
-@ApiTags('attendance')
+@ApiTags('Attendance')
 @Controller('attendance')
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 
-  //jwt will be added on this route
   @Post('/signin')
   async Signin(@Body() data: SignIn) {
     return await this.attendanceService.signIn(data);

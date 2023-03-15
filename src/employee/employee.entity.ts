@@ -11,16 +11,17 @@ export class Employee extends BaseEntity {
   @Column()
   password: string;
 
-  @Column({unique:true})
+  @Column({ unique: true })
   contact: string;
-
 
   @Column()
   salary: number;
 
-
   @Column()
   departmentId: string;
 
-
+  @Column()
+  yearlyLeaves: number;
+  @Column()
+  consumedLeaves: number;
 }

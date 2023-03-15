@@ -14,6 +14,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config/dist';
 import { Attendance } from './attendance/attendance.entity';
+import { LeaveModule } from './leave/leave.module';
+import { Leave } from './leave/leave.entity';
 
 const DB = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -22,7 +24,7 @@ const DB = TypeOrmModule.forRoot({
   username: 'root',
   password: '',
   database: 'leaveattendance',
-  entities: [Employee, Department, Attendance],
+  entities: [Employee, Department, Attendance,Leave],
   synchronize: true,
 });
 
@@ -33,6 +35,7 @@ const DB = TypeOrmModule.forRoot({
     DepartmentModule,
     EmployeeModule,
     AttendanceModule,
+    LeaveModule,
     //jwt step 3
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -43,6 +46,7 @@ const DB = TypeOrmModule.forRoot({
       },
       inject: [ConfigService],
     }),
+  
   ],
   controllers: [AppController],
 

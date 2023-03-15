@@ -37,6 +37,7 @@ export class EmployeeService {
     employee.contact = data.contact;
     employee.departmentId = data.departmentId;
     employee.salary = data.salary;
+    employee.yearlyLeaves = dep.allowedLeaves;
     await employee.save();
     return employee;
   }

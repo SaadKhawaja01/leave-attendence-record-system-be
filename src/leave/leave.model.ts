@@ -25,7 +25,7 @@ export class LeaveApplication implements ILeaveApplication {
   @ApiProperty()
   @IsNotEmpty()
   @IsArray()
-  leaveDates: Date[];
+  leaveDates: [];
   @ApiProperty()
   @IsNotEmpty()
   @IsString()

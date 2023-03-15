@@ -20,9 +20,9 @@ export class Leave extends BaseEntity {
   @Column()
   description: string;
 
-  @Column('date', { array: true })
-  leaveDates: Date[];
-
   @Column()
+  leaveDates: string;
+
+  @Column({default:"Pending"})
   status: string;
 }

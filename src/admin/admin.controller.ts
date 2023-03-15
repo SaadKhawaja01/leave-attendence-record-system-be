@@ -58,6 +58,28 @@ export class AdminController {
   }
 
 
+  @ApiQuery({
+    name: 'employeeId',
+    required: false,
+    type: 'string',
+    // description: '2023-03-11 00:00:01',
+  })
+  // @ApiQuery({
+  //   name: 'toDate',
+  //   required: false,
+  //   type: Date,
+  //   description: '2023-03-11 23:59:59',
+  // })
+  @Get('leave-applications')
+  async leaveApplications(
+    @Query('employeeId') id: string,
+    // @Query('toDate') toDate: Date,
+  ) {
+    return await this.adminService.leaveApplications(id);
+  }
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Attendance } from 'src/attendance/attendance.entity';
 import { Employee } from 'src/employee/employee.entity';
+import { Leave } from 'src/leave/leave.entity';
 import { Between } from 'typeorm';
 import { IAdminSignIn } from './admin.dto';
 
@@ -29,13 +30,11 @@ export class AdminService {
   }
 
   async workingHours(id: string, fromDate: Date, toDate: Date) {
-
-   //check for valid employee id
-   const employee = await Employee.findOneBy({ id });
-   if (!employee) {
-     throw new HttpException('employee not found', HttpStatus.NOT_FOUND);
-   }
-
+    //check for valid employee id
+    const employee = await Employee.findOneBy({ id });
+    if (!employee) {
+      throw new HttpException('employee not found', HttpStatus.NOT_FOUND);
+    }
 
     var workedHours = 0;
     const attendanceRecords = await Attendance.findBy({
@@ -49,10 +48,12 @@ export class AdminService {
     return { WokedHours: workedHours };
   }
 
+  async leaveApplications(id: string) {
+    const applications = await Leave.findBy({
+      status: 'Pending',
+      employeeId: id,
+    });
 
-
-
-
-
-
+    return applications;
+  }
 }

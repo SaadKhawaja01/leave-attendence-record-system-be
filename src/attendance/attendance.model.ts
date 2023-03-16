@@ -5,11 +5,11 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { IChangePassword, ISignIn } from './attendance.dto';
 
 export class SignIn implements ISignIn {
-  @ApiProperty({ default: 'Usama' })
+  @ApiProperty({ default: 'John Smith' })
   @IsNotEmpty()
   @IsString()
   name: string;
-  @ApiProperty({ default: '0300-1234567' })
+  @ApiProperty({ default: '0300-12345678' })
   @IsNotEmpty()
   @IsString()
   contact: string;

@@ -3,4 +3,7 @@ export interface IAdminSignIn {
   password: string;
 }
 
-
+export interface IPatchApplication {
+  id: string;
+  status: string;
+}

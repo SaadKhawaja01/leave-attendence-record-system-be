@@ -12,7 +12,6 @@ export interface ILeaveApplicationResponse {
   availableLeaves: number;
   description: string;
   leaveDates: string;
-  leaveDays: number;
   status: string;
 }
 // export interface IChangePassword {

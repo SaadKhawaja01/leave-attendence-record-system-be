@@ -18,11 +18,14 @@ export class Leave extends BaseEntity {
   consumedLeaves: number;
 
   @Column()
+  appliedLeaveDays: number;
+
+  @Column()
   description: string;
 
   @Column()
   leaveDates: string;
 
-  @Column({default:"Pending"})
+  @Column({ default: 'Pending' })
   status: string;
 }

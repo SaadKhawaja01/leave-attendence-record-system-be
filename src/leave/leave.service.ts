@@ -19,16 +19,15 @@ export class LeaveService {
     application.description = data.description;
     application.leaveDates = data.leaveDates.toString();
     application.status = 'Pending';
+    application.appliedLeaveDays = data.leaveDates.length;
     await application.save();
 
     let availableLeaves =
       application.allowedLeaves - application.consumedLeaves;
-    let leaveDays = data.leaveDates.length;
 
     return {
       ...application,
       availableLeaves,
-      leaveDays,
     };
   }
 
@@ -46,11 +45,7 @@ export class LeaveService {
 
   async leaveApplications(user: Employee) {
     const applications = await Leave.findBy({ employeeId: user.id });
-    
 
-    return applications
+    return applications;
   }
-
-
-
 }

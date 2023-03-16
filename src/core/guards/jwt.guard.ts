@@ -52,18 +52,6 @@ export class JwtGuard extends AuthGuard('jwt') {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
-    // const requiredRoles = this.reflector.getAllAndOverride<[]>(
-    //   'universityProject',
-    //   [context.getHandler(), context.getClass()],
-    // );
-
-    // if (requiredRoles) {
-    //   const fulfilled = requiredRoles.some((role) => user.role === role);
-    //   if (fulfilled === false) {
-    //     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-    //   }
-    // }
-
     return user;
   }
 }

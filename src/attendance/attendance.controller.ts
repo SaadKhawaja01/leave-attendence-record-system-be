@@ -1,26 +1,13 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Controller, Post, UseGuards } from '@nestjs/common';
 import { Get, Query, Req } from '@nestjs/common/decorators';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/core/guards/jwt.guard';
-import { changePassword, SignIn } from './attendance.model';
 import { AttendanceService } from './attendance.service';
 
 @ApiTags('Attendance')
 @Controller('attendance')
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
-
-  @Post('/signin')
-  async Signin(@Body() data: SignIn) {
-    return await this.attendanceService.signIn(data);
-  }
-
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
-  @Post('/changepassword')
-  async changePassword(@Body() data: changePassword, @Req() request) {
-    return await this.attendanceService.changePassword(data, request.user);
-  }
 
   @ApiBearerAuth()
   @UseGuards(JwtGuard)

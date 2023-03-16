@@ -2,7 +2,7 @@ import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { Get } from '@nestjs/common/decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/core/guards/jwt.guard';
-import { ILeaveApplication, ILeaveApplicationResponse } from './leave.dto';
+import { ILeaveApplicationResponse } from './leave.dto';
 import { LeaveApplication } from './leave.model';
 import { LeaveService } from './leave.service';
 

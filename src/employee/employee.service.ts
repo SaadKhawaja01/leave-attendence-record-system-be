@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
 import { Department } from 'src/department/department.entity';
-import { DataSource } from 'typeorm';
-import { IEmployeeCreate, IEmployeeResponse } from './employee.dto';
+import {  IEmployeeResponse } from './employee.dto';
 import { Employee } from './employee.entity';
 import { EmployeeCreate, EmployeePatch } from './employee.model';
 

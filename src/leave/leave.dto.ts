@@ -14,6 +14,3 @@ export interface ILeaveApplicationResponse {
   leaveDates: string;
   status: string;
 }
-// export interface IChangePassword {
-//   password: string;
-// }

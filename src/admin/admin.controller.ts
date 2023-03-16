@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Param, Patch, Query } from '@nestjs/common/decorators';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { IAdminSignIn, IPatchApplication } from './admin.dto';
 import { adminSignIn, PatchApplication } from './admin.model';
 import { AdminService } from './admin.service';
 

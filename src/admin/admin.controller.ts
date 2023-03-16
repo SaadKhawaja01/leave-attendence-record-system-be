@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { Param, Query } from '@nestjs/common/decorators';
+import { Param, Patch, Query } from '@nestjs/common/decorators';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { IAdminSignIn } from './admin.dto';
-import { adminSignIn } from './admin.model';
+import { IAdminSignIn, IPatchApplication } from './admin.dto';
+import { adminSignIn, PatchApplication } from './admin.model';
 import { AdminService } from './admin.service';
 
 @ApiTags('Admin')
@@ -58,27 +58,35 @@ export class AdminController {
   }
 
 
+
+  @Get('leave-records')
+  async leaveRecords(
+  ) {
+    return await this.adminService.leaveRecords();
+  }
+
+
+
+
   @ApiQuery({
     name: 'employeeId',
     required: false,
     type: 'string',
-    // description: '2023-03-11 00:00:01',
   })
-  // @ApiQuery({
-  //   name: 'toDate',
-  //   required: false,
-  //   type: Date,
-  //   description: '2023-03-11 23:59:59',
-  // })
   @Get('leave-applications')
   async leaveApplications(
     @Query('employeeId') id: string,
-    // @Query('toDate') toDate: Date,
   ) {
     return await this.adminService.leaveApplications(id);
   }
 
 
+  @Patch('leave-applications')
+  async patchApplication(
+   @Body() data: PatchApplication,
+  ) {
+    return await this.adminService.patchApplication(data);
+  }
 
 
 

@@ -3,15 +3,15 @@ import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { IEmployeeCreate, IEmployeePatch } from './employee.dto';
 
 export class EmployeeCreate implements IEmployeeCreate {
-  @ApiProperty({ default: 'Usama' })
+  @ApiProperty({ default: 'John Smith' })
   @IsNotEmpty()
   @IsString()
   name: string;
-  @ApiProperty({ default: 'Saad' })
+  @ApiProperty({ default: 'password' })
   @IsNotEmpty()
   @IsString()
   password: string;
-  @ApiProperty({ default: '0300-1234789' })
+  @ApiProperty({ default: '0300-12345678' })
   @IsNotEmpty()
   @IsEmail()
   contact: string;
@@ -25,13 +25,13 @@ export class EmployeeCreate implements IEmployeeCreate {
   salary: number;
 }
 export class EmployeePatch implements IEmployeePatch {
-  @ApiProperty({ default: 'Usama' })
+  @ApiProperty({ default: 'John Smith' })
   @IsString()
   name: string;
-  @ApiProperty({ default: 'Saad' })
+  @ApiProperty({ default: 'password' })
   @IsString()
   password: string;
-  @ApiProperty({ default: '0300-1234789' })
+  @ApiProperty({ default: '0300-12345678' })
   @IsEmail()
   contact: string;
   @ApiProperty({ default: '89703343-3b10-4e51-9966-8d21c662f4a9' })

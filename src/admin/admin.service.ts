@@ -3,7 +3,7 @@ import { Attendance } from 'src/attendance/attendance.entity';
 import { Employee } from 'src/employee/employee.entity';
 import { Leave } from 'src/leave/leave.entity';
 import { Between } from 'typeorm';
-import { IAdminSignIn } from './admin.dto';
+import { IAdminSignIn, IPatchApplication } from './admin.dto';
 
 @Injectable()
 export class AdminService {
@@ -48,6 +48,20 @@ export class AdminService {
     return { WokedHours: workedHours };
   }
 
+  async leaveRecords() {
+    const userData = await Employee.find();
+    let data = userData.map((employee) => {
+      return {
+        EmployeeName:employee.name,
+        EmployeeDepartment:employee.departmentId,
+        AllowedLeaves: employee.yearlyLeaves,
+        ConsumedLeaves: employee.consumedLeaves,
+      };
+    });
+
+    return data;
+  }
+
   async leaveApplications(id: string) {
     const applications = await Leave.findBy({
       status: 'Pending',
@@ -55,5 +69,42 @@ export class AdminService {
     });
 
     return applications;
+  }
+
+  async patchApplication(data: IPatchApplication) {
+    //to check for valid status
+    if (data.status !== 'Accepted' && data.status !== 'Rejected') {
+      throw new HttpException(
+        'you must select status between Accepted & Rejected',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // to check for valid leaved application id
+    let leaveApplication = await Leave.findOneBy({ id: data.id });
+    if (!leaveApplication)
+      throw new HttpException(
+        'leave application not found',
+        HttpStatus.NOT_FOUND,
+      );
+
+    // update status
+    if (data.status === 'Accepted') {
+      //update consumed leave
+      let user = await Employee.findOneBy({ id: leaveApplication.employeeId });
+      user.consumedLeaves += leaveApplication.appliedLeaveDays;
+      leaveApplication.status = 'Accepted';
+      leaveApplication.consumedLeaves = leaveApplication.appliedLeaveDays;
+      await user.save();
+      await leaveApplication.save();
+      return leaveApplication;
+    }
+
+    //if rejected
+    //update consumed leave
+    let user = await Employee.findOneBy({ id: leaveApplication.employeeId });
+    leaveApplication.status = 'Rejected';
+    await leaveApplication.save();
+    return leaveApplication;
   }
 }

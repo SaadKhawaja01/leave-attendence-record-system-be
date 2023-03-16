@@ -43,8 +43,17 @@ export class EmployeeService {
   }
 
   async update(id: string, employee: EmployeePatch): Promise<Employee> {
-    await Employee.update(id, employee);
-    return Employee.findOneBy({ id });
+    let emp = await this.findOne(id);
+    emp.name = employee.name;
+    emp.password = employee.password;
+    emp.contact = employee.contact;
+    emp.departmentId = employee.departmentId;
+    let dep = await Department.findOneBy({ id: employee.departmentId });
+    emp.yearlyLeaves = dep.allowedLeaves;
+    emp.salary = employee.salary;
+
+    await emp.save();
+    return emp;
   }
 
   async delete(id: string): Promise<IEmployeeResponse> {

@@ -8,6 +8,7 @@ import { IAdminSignIn, IPatchApplication } from './admin.dto';
 @Injectable()
 export class AdminService {
   adminSignIn(data: IAdminSignIn) {
+    //admin credentials check
     if (data.username !== 'admin' || data.password !== 'password') {
       throw new HttpException('wrong credentials', HttpStatus.BAD_REQUEST);
     }
@@ -21,6 +22,7 @@ export class AdminService {
       throw new HttpException('employee not found', HttpStatus.NOT_FOUND);
     }
 
+    // find attendance records
     const attendanceRecords = await Attendance.findBy({
       employeeId: id,
       attendanceDate: fromDate && toDate && Between(fromDate, toDate),
@@ -43,6 +45,7 @@ export class AdminService {
     });
 
     attendanceRecords.forEach((record) => {
+      //to get values like 5.5 (to skip other points values)
       workedHours += parseFloat(parseFloat(record.workingHours).toFixed(1));
     });
     return { WokedHours: workedHours };
@@ -90,7 +93,6 @@ export class AdminService {
 
     // update status
     if (data.status === 'Accepted') {
-      //update consumed leave
       let user = await Employee.findOneBy({ id: leaveApplication.employeeId });
       user.consumedLeaves += leaveApplication.appliedLeaveDays;
       leaveApplication.status = 'Accepted';
@@ -100,8 +102,7 @@ export class AdminService {
       return leaveApplication;
     }
 
-    //if rejected
-    //update consumed leave
+ 
     let user = await Employee.findOneBy({ id: leaveApplication.employeeId });
     leaveApplication.status = 'Rejected';
     await leaveApplication.save();

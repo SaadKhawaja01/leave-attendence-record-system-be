@@ -47,6 +47,8 @@ export class EmployeeService {
     emp.password = employee.password;
     emp.contact = employee.contact;
     emp.departmentId = employee.departmentId;
+    
+    //find department to get allowed leaves
     let dep = await Department.findOneBy({ id: employee.departmentId });
     emp.yearlyLeaves = dep.allowedLeaves;
     emp.salary = employee.salary;

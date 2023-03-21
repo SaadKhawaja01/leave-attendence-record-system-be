@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { IJwtPayload, JwtSecret } from 'src/core/guards/jwt.guard';
 import { Department } from 'src/department/department.entity';
 import { Employee } from 'src/employee/employee.entity';
@@ -6,7 +7,7 @@ import { changePassword, SignIn, userPatch } from './user.model';
 
 @Injectable()
 export class UserService {
-  jwtService: any;
+  constructor(private readonly jwtService: JwtService) {}
 
   async signIn(data: SignIn) {
     const employee = await Employee.findOneBy({ contact: data.contact });
@@ -18,7 +19,7 @@ export class UserService {
       throw new HttpException('password is incorrect', HttpStatus.UNAUTHORIZED);
     }
 
-    //jwt 2
+    // //jwt 2
     const payload: IJwtPayload = {
       id: employee.id,
       name: employee.name,
@@ -45,9 +46,7 @@ export class UserService {
     emp.name = employee.name;
     emp.password = employee.password;
     emp.contact = employee.contact;
-    emp.departmentId = employee.departmentId;
-    let dep = await Department.findOneBy({ id: employee.departmentId });
-    emp.yearlyLeaves = dep.allowedLeaves;
+   
     await emp.save();
     return emp;
   }

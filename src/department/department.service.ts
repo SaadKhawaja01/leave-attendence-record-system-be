@@ -13,7 +13,7 @@ export class DepartmentService {
     return Department.findOneBy({ id });
   }
 
-  async create(data: DepartmentCreate): Promise<any> {
+  async create(data: DepartmentCreate) {
     const department = new Department();
     department.name = data.name;
     department.allowedLeaves = data.allowedLeaves;

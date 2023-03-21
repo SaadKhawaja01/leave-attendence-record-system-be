@@ -19,7 +19,7 @@ export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
   @Post()
-  async create(@Body() department: DepartmentCreate): Promise<PaymentResponse> {
+  async create(@Body() department: DepartmentCreate){
     return this.departmentService.create(department);
   }
 

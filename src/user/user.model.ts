@@ -34,7 +34,5 @@ export class userPatch implements IUserPatch {
   @ApiProperty({ default: '0300-12345678' })
   @IsEmail()
   contact: string;
-  @ApiProperty({ default: '89703343-3b10-4e51-9966-8d21c662f4a9' })
-  @IsString()
-  departmentId: string;
+
 }

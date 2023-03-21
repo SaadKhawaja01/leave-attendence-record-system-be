@@ -13,7 +13,6 @@ export interface IUserPatch {
   name: string;
   password: string;
   contact: string;
-  departmentId: string;
 }
 export interface IUserResponse {
   id: string;

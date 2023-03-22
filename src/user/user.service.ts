@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IJwtPayload, JwtSecret } from 'src/core/guards/jwt.guard';
-import { Department } from 'src/department/department.entity';
 import { Employee } from 'src/employee/employee.entity';
 import { changePassword, SignIn, userPatch } from './user.model';
 
@@ -34,7 +33,7 @@ export class UserService {
   }
 
   async changePassword(data: changePassword, request: Employee) {
-    console.log(request);
+    //finding employee
     const employee = await Employee.findOneBy({ id: request.id });
     employee.password = data.password;
     await employee.save();
@@ -42,6 +41,7 @@ export class UserService {
   }
 
   async update(user: Employee, employee: userPatch): Promise<Employee> {
+     //finding employee
     let emp = await Employee.findOneBy({ id: user.id });
     emp.name = employee.name;
     emp.password = employee.password;

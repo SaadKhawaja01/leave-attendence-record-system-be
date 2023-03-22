@@ -6,8 +6,7 @@ import { Attendance } from './attendance.entity';
 
 @Injectable()
 export class AttendanceService {
-  constructor(private readonly jwtService: JwtService) {}
-
+ 
   async loginTime(request: Employee) {
     const employee = await Employee.findOneBy({ id: request.id });
     if (!employee) {

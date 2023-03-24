@@ -5,7 +5,7 @@ import { Employee } from './employee.entity';
 import { EmployeeCreate, EmployeePatch } from './employee.model';
 import { EmployeeService } from './employee.service';
 
-
+//controller
 @ApiTags('Employee')
 @Controller('employee')
 export class EmployeeController {

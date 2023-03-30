@@ -12,7 +12,7 @@ export class EmployeeController {
 
     constructor(private readonly employeeService:EmployeeService){}
 
-
+//routes
     @Get()
     async findAll(): Promise<Employee[]> {
       return this.employeeService.findAll();

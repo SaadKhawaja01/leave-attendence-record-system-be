@@ -9,6 +9,7 @@ import { LeaveService } from './leave.service';
 @ApiTags('Leave')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
+//routes for leave
 @Controller('leave')
 export class LeaveController {
   constructor(private readonly leaveService: LeaveService) {}

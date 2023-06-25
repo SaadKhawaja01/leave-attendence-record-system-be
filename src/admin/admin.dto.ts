@@ -4,6 +4,6 @@ export interface IAdminSignIn {
 }
 
 export interface IPatchApplication {
-  id: string;
+  applicationId: string;
   status: string;
 }

@@ -18,7 +18,7 @@ import { LeaveModule } from './leave/leave.module';
 import { Leave } from './leave/leave.entity';
 import { UserModule } from './user/user.module';
 
-//for Sql Db 
+//for Sql Db
 const DB = TypeOrmModule.forRoot({
   type: 'mysql',
   host: 'localhost',
@@ -26,16 +26,16 @@ const DB = TypeOrmModule.forRoot({
   username: 'root',
   password: '',
   database: 'leaveattendance',
-  entities: [Employee, Department, Attendance,Leave],
+  entities: [Employee, Department, Attendance, Leave],
   synchronize: true,
 });
 
-// all modules imports here 
+// all modules imports here
 @Module({
   imports: [
     DB,
     AdminModule,
-    DepartmentModule,
+    // DepartmentModule,
     EmployeeModule,
     UserModule,
     AttendanceModule,
@@ -50,8 +50,6 @@ const DB = TypeOrmModule.forRoot({
       },
       inject: [ConfigService],
     }),
-   
-  
   ],
   controllers: [AppController],
 

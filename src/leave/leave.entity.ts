@@ -9,22 +9,37 @@ export class Leave extends BaseEntity {
   employeeId: string;
 
   @Column()
-  applcationDate: Date;
+  leaveType: string;
 
   @Column()
-  allowedLeaves: number;
+  allowedEarnedLeaves: number;
+  @Column()
+  consumedEarnedLeaves: number;
 
   @Column()
-  consumedLeaves: number;
+  allowedCasualLeaves: number;
+  @Column()
+  consumedCasualLeaves: number;
+
+  @Column()
+  allowedCompensatoryLeaves: number;
+  @Column()
+  consumedCompensatoryLeaves: number;
+  
+  @Column()
+  toDate: Date;
+
+  @Column()
+  fromDate: Date;
 
   @Column()
   appliedLeaveDays: number;
 
   @Column()
-  description: string;
+  descriptionLeave: string;
 
   @Column()
-  leaveDates: string;
+  reason: string;
 
   @Column({ default: 'Pending' })
   status: string;

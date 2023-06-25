@@ -18,10 +18,17 @@ export class Employee extends BaseEntity {
   salary: number;
 
   @Column()
-  departmentId: string;
+  allowedEarnedLeaves: number;
+  @Column({default: 0})
+  consumedEarnedLeaves: number;
 
   @Column()
-  yearlyLeaves: number;
+  allowedCasualLeaves: number;
+  @Column({default: 0})
+  consumedCasualLeaves: number;
+
   @Column()
-  consumedLeaves: number;
+  allowedCompensatoryLeaves: number;
+  @Column({default: 0})
+  consumedCompensatoryLeaves: number;
 }

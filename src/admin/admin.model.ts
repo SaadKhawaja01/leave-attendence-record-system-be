@@ -15,7 +15,7 @@ export class PatchApplication implements IPatchApplication {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  id: string;
+  applicationId: string;
   @ApiProperty({ default: 'Accepted' })
   @IsNotEmpty()
   @IsString()

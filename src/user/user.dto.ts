@@ -19,6 +19,5 @@ export interface IUserResponse {
   name: string;
   password: string;
   contact: string;
-  departmentId: string;
   salary: number;
 }

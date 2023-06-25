@@ -15,11 +15,21 @@ export class EmployeeCreate implements IEmployeeCreate {
   @IsNotEmpty()
   @IsEmail()
   contact: string;
-  @ApiProperty({ default: '89703343-3b10-4e51-9966-8d21c662f4a9' })
+
+  @ApiProperty({ default: 5 })
   @IsNotEmpty()
-  @IsString()
-  departmentId: string;
-  @ApiProperty({ default: 0 })
+  @IsNumber()
+  allowedEarnedLeaves: number;
+  @ApiProperty({ default: 5 })
+  @IsNotEmpty()
+  @IsNumber()
+  allowedCasualLeaves: number;
+  @ApiProperty({ default: 5 })
+  @IsNotEmpty()
+  @IsNumber()
+  allowedCompensatoryLeaves: number;
+
+  @ApiProperty({ default: 50000 })
   @IsNotEmpty()
   @IsNumber()
   salary: number;
@@ -34,10 +44,18 @@ export class EmployeePatch implements IEmployeePatch {
   @ApiProperty({ default: '0300-12345678' })
   @IsEmail()
   contact: string;
-  @ApiProperty({ default: '89703343-3b10-4e51-9966-8d21c662f4a9' })
-  @IsString()
-  departmentId: string;
-  @ApiProperty({ default: 0 })
+
+  @ApiProperty({ default: 5 })
+  @IsNumber()
+  allowedEarnedLeaves: number;
+  @ApiProperty({ default: 5 })
+  @IsNumber()
+  allowedCasualLeaves: number;
+  @ApiProperty({ default: 5 })
+  @IsNumber()
+  allowedCompensatoryLeaves: number;
+
+  @ApiProperty({ default: 5000 })
   @IsNumber()
   salary: number;
 }

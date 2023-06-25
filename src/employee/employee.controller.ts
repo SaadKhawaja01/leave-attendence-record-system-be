@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { ApiTags } from '@nestjs/swagger';
 import { IEmployeeResponse } from './employee.dto';
 import { Employee } from './employee.entity';
-import { EmployeeCreate, EmployeePatch } from './employee.model';
+import { EmployeeCreate, EmployeePatch,  } from './employee.model';
 import { EmployeeService } from './employee.service';
 
 //controller
@@ -12,7 +12,7 @@ export class EmployeeController {
 
     constructor(private readonly employeeService:EmployeeService){}
 
-//routes for employee
+// routes for employee
     @Get()
     async findAll(): Promise<Employee[]> {
       return this.employeeService.findAll();

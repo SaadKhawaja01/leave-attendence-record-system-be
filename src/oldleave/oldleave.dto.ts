@@ -1,15 +1,6 @@
-export interface ILeaveApplication {
-  toDate: Date;
-  fromDate: Date;
-  leaveType: string;
-  descriptionLeave: string;
-  reason: string;
-}
-
-// export interface IAllowedLeaves {
-//   leaveType: string;
-//   allowedLeaves: number;
-
+// export interface ILeaveApplication {
+//   leaveDates: [];
+//   description: string;
 // }
 
 // export interface ILeaveApplicationResponse {

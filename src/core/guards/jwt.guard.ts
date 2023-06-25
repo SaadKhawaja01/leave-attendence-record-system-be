@@ -14,7 +14,6 @@ export interface IJwtPayload {
   name: string;
   password: string;
   contact: string;
-  departmentId: string;
   salary: number;
 }
 

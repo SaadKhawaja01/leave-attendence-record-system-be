@@ -55,19 +55,24 @@ export class AdminService {
     const userData = await Employee.find();
     let data = userData.map((employee) => {
       return {
-        EmployeeName:employee.name,
-        EmployeeDepartment:employee.departmentId,
-        AllowedLeaves: employee.yearlyLeaves,
-        ConsumedLeaves: employee.consumedLeaves,
+        EmployeeId: employee.id,
+        EmployeeName: employee.name,
+        EmployeeContact: employee.contact,
+        allowedEarnedLeaves: employee.allowedEarnedLeaves,
+        consumedEarnedLeaves: employee.consumedEarnedLeaves,
+        allowedCasualLeaves: employee.allowedCasualLeaves,
+        consumedCasualLeaves: employee.consumedCasualLeaves,
+        allowedCompensatoryLeaves: employee.allowedCompensatoryLeaves,
+        consumedCompensatoryLeaves: employee.consumedCompensatoryLeaves,
       };
     });
 
     return data;
   }
 
-  async leaveApplications(id: string) {
+  async leaveApplications(id: string, status: string) {
     const applications = await Leave.findBy({
-      status: 'Pending',
+      status: status,
       employeeId: id,
     });
 
@@ -84,28 +89,29 @@ export class AdminService {
     }
 
     // to check for valid leaved application id
-    let leaveApplication = await Leave.findOneBy({ id: data.id });
-    if (!leaveApplication)
+    let application = await Leave.findOneBy({ id: data.applicationId,status: 'Pending'});
+    if (!application)
       throw new HttpException(
         'leave application not found',
         HttpStatus.NOT_FOUND,
       );
 
-    // update status
+    // updating employee entity
     if (data.status === 'Accepted') {
-      let user = await Employee.findOneBy({ id: leaveApplication.employeeId });
-      user.consumedLeaves += leaveApplication.appliedLeaveDays;
-      leaveApplication.status = 'Accepted';
-      leaveApplication.consumedLeaves = leaveApplication.appliedLeaveDays;
-      await user.save();
-      await leaveApplication.save();
-      return leaveApplication;
+      let employee = await Employee.findOneBy({ id: application.employeeId });
+      if (application.leaveType == 'earnedLeaves') {
+        employee.consumedEarnedLeaves += application.appliedLeaveDays;
+      } else if (application.leaveType == 'casualLeaves') {
+        employee.consumedCasualLeaves += application.appliedLeaveDays;
+      } else if (application.leaveType == 'compensatoryLeaves') {
+        employee.consumedCompensatoryLeaves += application.appliedLeaveDays;
+      }
+
+      await employee.save();
     }
 
- 
-    let user = await Employee.findOneBy({ id: leaveApplication.employeeId });
-    leaveApplication.status = 'Rejected';
-    await leaveApplication.save();
-    return leaveApplication;
+    application.status = data.status;
+    await application.save();
+    return application;
   }
 }

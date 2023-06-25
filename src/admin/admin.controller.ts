@@ -72,11 +72,17 @@ export class AdminController {
     required: false,
     type: 'string',
   })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    type: 'string',
+  })
   @Get('leave-applications')
   async leaveApplications(
     @Query('employeeId') id: string,
+    @Query('status') status: string,
   ) {
-    return await this.adminService.leaveApplications(id);
+    return await this.adminService.leaveApplications(id,status);
   }
 
 

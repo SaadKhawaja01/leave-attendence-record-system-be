@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { IJwtPayload, JwtSecret } from 'src/core/guards/jwt.guard';
 import { Employee } from 'src/employee/employee.entity';
 import { changePassword, SignIn, userPatch } from './user.model';
+import { Leave } from 'src/leave/leave.entity';
 
 @Injectable()
 export class UserService {
@@ -24,7 +25,6 @@ export class UserService {
       name: employee.name,
       password: employee.password,
       contact: employee.contact,
-      departmentId: employee.departmentId,
       salary: employee.salary,
     };
     const jwttoken = await this.jwtService.sign(payload, { secret: JwtSecret });
@@ -50,4 +50,24 @@ export class UserService {
     await emp.save();
     return emp;
   }
+
+async leaveRecords(
+  user:Employee
+){
+  const employe = await Employee.findOneBy({id:user.id})
+
+  return {
+    "allowedEarnedLeaves": employe.allowedEarnedLeaves,
+    "consumedEarnedLeaves": employe.consumedEarnedLeaves,
+    "allowedCasualLeaves": employe.allowedCasualLeaves,
+    "consumedCasualLeaves": employe.consumedCasualLeaves,
+    "allowedCompensatoryLeaves": employe.allowedCompensatoryLeaves,
+    "consumedCompensatoryLeaves": employe.consumedCompensatoryLeaves,
+  }
+}
+
+async leaveApplications( user:Employee){
+return await Leave.findBy({employeeId: user.id}) 
+}
+
 }

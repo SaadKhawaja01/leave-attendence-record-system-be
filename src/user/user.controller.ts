@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/core/guards/jwt.guard';
 import { IUserResponse } from './user.dto';
@@ -25,10 +25,21 @@ export class UserController {
 
   @ApiBearerAuth()
   @UseGuards(JwtGuard)
-  @Patch()
+  @Patch('/profile')
   async update(@Req() request, @Body() employee: userPatch): Promise<IUserResponse> {
     return this.userService.update(request.user, employee);
   }
-
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Get('leave-records')
+  async leaveRecords(@Req() request) {
+    return await this.userService.leaveRecords(request.user);
+  }
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Get('leave-applications')
+  async leaveApplications(@Req() request) {
+    return await this.userService.leaveApplications(request.user);
+  }
 
 }

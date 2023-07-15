@@ -3,6 +3,10 @@ import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { IEmployeeCreate, IEmployeePatch } from './employee.dto';
 
 export class EmployeeCreate implements IEmployeeCreate {
+  @ApiProperty({ default: 'Saad@xyz.com' })
+  @IsEmail()
+  email: string;
+
   @ApiProperty({ default: 'John Smith' })
   @IsNotEmpty()
   @IsString()
@@ -11,6 +15,9 @@ export class EmployeeCreate implements IEmployeeCreate {
   @IsNotEmpty()
   @IsString()
   password: string;
+  @ApiProperty({ default: 'junior developer' })
+  @IsNotEmpty()
+  designation: string;
   @ApiProperty({ default: '0300-12345678' })
   @IsNotEmpty()
   @IsEmail()
@@ -44,7 +51,9 @@ export class EmployeePatch implements IEmployeePatch {
   @ApiProperty({ default: '0300-12345678' })
   @IsEmail()
   contact: string;
-
+  @ApiProperty({ default: 'junior developer' })
+  @IsNotEmpty()
+  designation: string;
   @ApiProperty({ default: 5 })
   @IsNumber()
   allowedEarnedLeaves: number;

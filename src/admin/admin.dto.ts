@@ -1,6 +1,7 @@
 export interface IAdminSignIn {
-  username: string;
+  email: string;
   password: string;
+  isAdmin: boolean;
 }
 
 export interface IPatchApplication {

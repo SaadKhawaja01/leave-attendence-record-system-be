@@ -27,6 +27,8 @@ export class EmployeeService {
 
     const employee = new Employee();
     employee.name = data.name;
+    employee.email = data.email;
+    employee.designation = data.designation;
     employee.password = data.password;
     employee.contact = data.contact;
     employee.salary = data.salary;
@@ -40,12 +42,12 @@ export class EmployeeService {
   async update(id: string, data: EmployeePatch): Promise<Employee> {
     let employee = await this.findOne(id);
     employee.name = data.name;
+    employee.designation = data.designation;
     employee.password = data.password;
     employee.contact = data.contact;
     employee.allowedEarnedLeaves = data.allowedEarnedLeaves;
     employee.allowedCasualLeaves = data.allowedCasualLeaves;
     employee.allowedCompensatoryLeaves = data.allowedCompensatoryLeaves;
-
 
     employee.salary = data.salary;
 

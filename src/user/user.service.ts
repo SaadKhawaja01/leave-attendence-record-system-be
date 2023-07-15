@@ -10,7 +10,7 @@ export class UserService {
   constructor(private readonly jwtService: JwtService) {}
 
   async signIn(data: SignIn) {
-    const employee = await Employee.findOneBy({ contact: data.contact });
+    const employee = await Employee.findOneBy({ email: data.email });
     if (!employee) {
       throw new HttpException('employee not found', HttpStatus.NOT_FOUND);
     }
@@ -41,33 +41,30 @@ export class UserService {
   }
 
   async update(user: Employee, employee: userPatch): Promise<Employee> {
-     //finding employee
+    //finding employee
     let emp = await Employee.findOneBy({ id: user.id });
     emp.name = employee.name;
     emp.password = employee.password;
     emp.contact = employee.contact;
-   
+
     await emp.save();
     return emp;
   }
 
-async leaveRecords(
-  user:Employee
-){
-  const employe = await Employee.findOneBy({id:user.id})
+  async leaveRecords(user: Employee) {
+    const employe = await Employee.findOneBy({ id: user.id });
 
-  return {
-    "allowedEarnedLeaves": employe.allowedEarnedLeaves,
-    "consumedEarnedLeaves": employe.consumedEarnedLeaves,
-    "allowedCasualLeaves": employe.allowedCasualLeaves,
-    "consumedCasualLeaves": employe.consumedCasualLeaves,
-    "allowedCompensatoryLeaves": employe.allowedCompensatoryLeaves,
-    "consumedCompensatoryLeaves": employe.consumedCompensatoryLeaves,
+    return {
+      allowedEarnedLeaves: employe.allowedEarnedLeaves,
+      consumedEarnedLeaves: employe.consumedEarnedLeaves,
+      allowedCasualLeaves: employe.allowedCasualLeaves,
+      consumedCasualLeaves: employe.consumedCasualLeaves,
+      allowedCompensatoryLeaves: employe.allowedCompensatoryLeaves,
+      consumedCompensatoryLeaves: employe.consumedCompensatoryLeaves,
+    };
   }
-}
 
-async leaveApplications( user:Employee){
-return await Leave.findBy({employeeId: user.id}) 
-}
-
+  async leaveApplications(user: Employee) {
+    return await Leave.findBy({ employeeId: user.id });
+  }
 }

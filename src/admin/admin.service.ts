@@ -9,10 +9,10 @@ import { IAdminSignIn, IPatchApplication } from './admin.dto';
 export class AdminService {
   adminSignIn(data: IAdminSignIn) {
     //admin credentials check
-    if (data.username !== 'admin' || data.password !== 'password') {
+    if (data.email !== 'admin@xyz.com' || data.password !== 'password') {
       throw new HttpException('wrong credentials', HttpStatus.BAD_REQUEST);
     }
-    return 'LoggedIn successfully';
+    return data;
   }
 
   async attendance(id: string, fromDate: Date, toDate: Date) {
@@ -89,7 +89,10 @@ export class AdminService {
     }
 
     // to check for valid leaved application id
-    let application = await Leave.findOneBy({ id: data.applicationId,status: 'Pending'});
+    let application = await Leave.findOneBy({
+      id: data.applicationId,
+      status: 'Pending',
+    });
     if (!application)
       throw new HttpException(
         'leave application not found',

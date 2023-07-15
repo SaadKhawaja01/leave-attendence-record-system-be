@@ -56,16 +56,10 @@ export class AdminController {
     return await this.adminService.workingHours(id, fromDate, toDate);
   }
 
-
-
   @Get('leave-records')
-  async leaveRecords(
-  ) {
+  async leaveRecords() {
     return await this.adminService.leaveRecords();
   }
-
-
-
 
   @ApiQuery({
     name: 'employeeId',
@@ -82,18 +76,11 @@ export class AdminController {
     @Query('employeeId') id: string,
     @Query('status') status: string,
   ) {
-    return await this.adminService.leaveApplications(id,status);
+    return await this.adminService.leaveApplications(id, status);
   }
-
 
   @Patch('leave-applications')
-  async patchApplication(
-   @Body() data: PatchApplication,
-  ) {
+  async patchApplication(@Body() data: PatchApplication) {
     return await this.adminService.patchApplication(data);
   }
-
-
-
-
 }

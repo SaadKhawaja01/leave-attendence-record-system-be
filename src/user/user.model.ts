@@ -3,14 +3,11 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { IChangePassword, ISignIn, IUserPatch } from './user.dto';
 
 export class SignIn implements ISignIn {
-  @ApiProperty({ default: 'John Smith' })
+  @ApiProperty({ default: 'Saad@xyz.com' })
   @IsNotEmpty()
-  @IsString()
-  name: string;
-  @ApiProperty({ default: '0300-12345678' })
-  @IsNotEmpty()
-  @IsString()
-  contact: string;
+  @IsEmail()
+  email: string;
+
   @ApiProperty({ default: 'password' })
   @IsNotEmpty()
   @IsString()
@@ -34,5 +31,4 @@ export class userPatch implements IUserPatch {
   @ApiProperty({ default: '0300-12345678' })
   @IsEmail()
   contact: string;
-
 }

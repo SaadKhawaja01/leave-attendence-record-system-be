@@ -1,14 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { IAdminSignIn, IPatchApplication } from './admin.dto';
 
 export class adminSignIn implements IAdminSignIn {
-  @ApiProperty({ default: 'admin' })
+  @ApiProperty({ default: 'admin@xyz.com' })
   @IsNotEmpty()
-  username: string;
+  @IsEmail()
+  email: string;
   @ApiProperty({ default: 'password' })
   @IsNotEmpty()
   password: string;
+  @ApiProperty({ default: true })
+  @IsNotEmpty()
+  isAdmin: boolean;
 }
 
 export class PatchApplication implements IPatchApplication {

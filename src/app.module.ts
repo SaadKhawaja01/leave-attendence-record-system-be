@@ -25,7 +25,7 @@ const DB = TypeOrmModule.forRoot({
   port: 3306,
   username: 'root',
   password: '',
-  database: 'leaveattendance',
+  database: 'leaveattendance2',
   entities: [Employee, Department, Attendance, Leave],
   synchronize: true,
 });

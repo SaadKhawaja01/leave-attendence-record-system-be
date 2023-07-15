@@ -1,7 +1,7 @@
-
-
 export interface IEmployeeCreate {
   name: string;
+  email: string;
+  designation: string;
   password: string;
   contact: string;
   allowedEarnedLeaves: number;
@@ -13,6 +13,7 @@ export interface IEmployeePatch {
   name: string;
   password: string;
   contact: string;
+  designation: string;
   allowedEarnedLeaves: number;
   allowedCasualLeaves: number;
   allowedCompensatoryLeaves: number;
@@ -21,6 +22,8 @@ export interface IEmployeePatch {
 export interface IEmployeeResponse {
   id: string;
   name: string;
+  email: string;
+  designation: string;
   password: string;
   contact: string;
   allowedEarnedLeaves: number;
@@ -31,4 +34,3 @@ export interface IEmployeeResponse {
   consumedCompensatoryLeaves: number;
   salary: number;
 }
-

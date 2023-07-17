@@ -17,10 +17,10 @@ export class EmployeeService {
   }
 
   async create(data: EmployeeCreate): Promise<any> {
-    const found = await Employee.findOneBy({ contact: data.contact });
+    const found = await Employee.findOneBy({ email: data.email });
     if (found) {
       throw new HttpException(
-        'employee already registerd with this number',
+        'employee already registerd with this email',
         HttpStatus.BAD_REQUEST,
       );
     }

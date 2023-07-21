@@ -3,7 +3,7 @@ import { Param, Patch, Query } from '@nestjs/common/decorators';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { adminSignIn, PatchApplication } from './admin.model';
 import { AdminService } from './admin.service';
-
+//this is admin controller
 @ApiTags('Admin')
 @Controller('admin')
 export class AdminController {

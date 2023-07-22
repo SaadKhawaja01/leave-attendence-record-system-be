@@ -18,7 +18,7 @@ export class LeaveApplication implements ILeaveApplication {
   @IsDate()
   fromDate: Date;
 
-  @ApiProperty({default:'casualLeaves'})
+  @ApiProperty({default:'full'})
   @IsNotEmpty()
   @IsString()
   leaveType: string;

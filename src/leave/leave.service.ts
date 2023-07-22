@@ -35,13 +35,9 @@ export class LeaveService {
 
   async application(data: ILeaveApplication, user: Employee) {
     //to get the value between these three
-    if (
-      data.leaveType !== 'earnedLeaves' &&
-      data.leaveType !== 'casualLeaves' &&
-      data.leaveType !== 'compensatoryLeaves'
-    ) {
+    if (data.leaveType !== 'half' && data.leaveType !== 'full') {
       throw new HttpException(
-        'you must enter the type of leave between casualLeaves , compensatoryLeaves &  earnedLeaves',
+        'you must enter the type of leave between half & full',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -80,18 +76,19 @@ export class LeaveService {
     application.allowedCasualLeaves = empRecord.allowedCasualLeaves;
     application.consumedCasualLeaves = empRecord.consumedCasualLeaves;
     application.allowedCompensatoryLeaves = empRecord.allowedCompensatoryLeaves;
-    application.consumedCompensatoryLeaves =empRecord.consumedCompensatoryLeaves;
+    application.consumedCompensatoryLeaves =
+      empRecord.consumedCompensatoryLeaves;
     application.toDate = data.toDate;
-    application.fromDate =data.fromDate;
-    application.appliedLeaveDays = diff
-    application.descriptionLeave = data.descriptionLeave
-    application.reason = data.reason
-    application.status = "Pending"
+    application.fromDate = data.fromDate;
+    application.appliedLeaveDays = diff;
+    application.descriptionLeave = data.descriptionLeave;
+    application.reason = data.reason;
+    application.status = 'Pending';
 
+    await application.save();
 
-    await application.save()
+    return application;
 
-    return application
     //updating consumed leaves
     // if (data.descriptionLeave == 'Casual') {
     //   const Leavesdata = await Allowed.findOneBy({ leaveType: 'casualLeaves' });

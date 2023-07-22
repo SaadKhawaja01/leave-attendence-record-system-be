@@ -70,6 +70,7 @@ export class LeaveService {
     const application = new Leave();
     application.employeeId = user.id;
     application.leaveType = data.leaveType;
+    application.employeeName = user.name;
 
     // to get allowed and consumend leaves we have to get the user
     const empRecord = await Employee.findOneBy({ id: user.id });

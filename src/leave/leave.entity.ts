@@ -9,6 +9,9 @@ export class Leave extends BaseEntity {
   employeeId: string;
 
   @Column()
+  employeeName: string;
+
+  @Column()
   leaveType: string;
 
   @Column()

@@ -17,13 +17,15 @@ export class AttendanceService {
     const attendanceRecords = await Attendance.findBy({
       employeeId: employee.id,
     });
-    const todayRecord = attendanceRecords.map((record) => {
+  
+    const todayRecord = attendanceRecords.find((record) => {
       let recDate = record.attendanceDate.toISOString().split('T')[0];
       const newDate = new Date().toISOString().split('T')[0];
       return recDate === newDate;
     });
 
-    if (todayRecord[0] == true) {
+  
+    if (todayRecord ) {
       throw new HttpException(
         'already punched',
         HttpStatus.UNPROCESSABLE_ENTITY,
@@ -63,6 +65,17 @@ export class AttendanceService {
 
     //to save
     const record = await Attendance.findOneBy({ id: todayRecord[0].id });
+
+
+    //to prevent dublication
+    if(record.workingHours !== '' ) {
+      throw new HttpException(
+        'already punched',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+  
+
     record.logoutTime = new Date();
     const timeDiff = Math.abs(
       record.logoutTime.getTime() - record.loginTime.getTime(),

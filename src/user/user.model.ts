@@ -15,20 +15,20 @@ export class SignIn implements ISignIn {
 }
 
 export class changePassword implements IChangePassword {
-  @ApiProperty({ default: 'password' })
+  @ApiProperty({ default: 'password',required: true })
   @IsNotEmpty()
   @IsString()
   password: string;
 }
 
 export class userPatch implements IUserPatch {
-  @ApiProperty({ default: 'John Smith' })
+  @ApiProperty({ default: 'John Smith',required: true })
   @IsString()
   name: string;
-  @ApiProperty({ default: 'password' })
+  @ApiProperty({ default: 'password',required: true })
   @IsString()
   password: string;
-  @ApiProperty({ default: '0300-12345678' })
+  @ApiProperty({ default: '0300-12345678',required: true })
   @IsEmail()
   contact: string;
 }

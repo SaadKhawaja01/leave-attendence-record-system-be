@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IJwtPayload, JwtSecret } from 'src/core/guards/jwt.guard';
 import { Employee } from 'src/employee/employee.entity';
@@ -40,12 +40,20 @@ export class UserService {
     return { ...employee };
   }
 
-  async update(user: Employee, employee: userPatch): Promise<Employee> {
+  async update(user: Employee, data: userPatch): Promise<Employee> {
+    //to make sure user cant send empty form
+    if(!data.name || !data.password ||!data.contact || !data.contact ){
+      throw new UnprocessableEntityException("you must have to fill the full form")
+    }
+
+
+
+
     //finding employee
     let emp = await Employee.findOneBy({ id: user.id });
-    emp.name = employee.name;
-    emp.password = employee.password;
-    emp.contact = employee.contact;
+    emp.name = data.name;
+    emp.password = data.password;
+    emp.contact = data.contact;
 
     await emp.save();
     return emp;

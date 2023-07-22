@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { AdminModule } from './admin/admin.module';
 import { EmployeeModule } from './employee/employee.module';
 import { Employee } from './employee/employee.entity';
-import { DepartmentModule } from './department/department.module';
 import { Department } from './department/department.entity';
 import { AttendanceModule } from './attendance/attendance.module';
 
@@ -35,7 +34,6 @@ const DB = TypeOrmModule.forRoot({
   imports: [
     DB,
     AdminModule,
-    // DepartmentModule,
     EmployeeModule,
     UserModule,
     AttendanceModule,

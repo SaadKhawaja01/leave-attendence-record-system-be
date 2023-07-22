@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
-import { HttpException } from '@nestjs/common/exceptions';
+import { HttpException, UnprocessableEntityException } from '@nestjs/common/exceptions';
 import { Department } from 'src/department/department.entity';
 import { IEmployeeResponse } from './employee.dto';
 import { Employee } from './employee.entity';
@@ -17,6 +17,13 @@ export class EmployeeService {
   }
 
   async create(data: EmployeeCreate): Promise<any> {
+
+    //to make sure user cant send empty form
+    if(!data.allowedCasualLeaves || !data.allowedCompensatoryLeaves ||!data.allowedEarnedLeaves || !data.contact || !data.designation || !data.email || !data.name || !data.password || !data.salary){
+      throw new UnprocessableEntityException("you must have to fill the full form")
+    }
+
+
     const found = await Employee.findOneBy({ email: data.email });
     if (found) {
       throw new HttpException(
@@ -40,6 +47,14 @@ export class EmployeeService {
   }
 
   async update(id: string, data: EmployeePatch): Promise<Employee> {
+
+    //to make sure user cant send empty form
+    if(!data.allowedCasualLeaves || !data.allowedCompensatoryLeaves ||!data.allowedEarnedLeaves || !data.contact || !data.designation || !data.name || !data.password || !data.salary){
+      throw new UnprocessableEntityException("you must have to fill the full form")
+    }
+
+
+
     let employee = await this.findOne(id);
     employee.name = data.name;
     employee.designation = data.designation;

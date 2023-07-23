@@ -35,6 +35,7 @@ export class AttendanceService {
     //to save on db
     const attendance = new Attendance();
     attendance.employeeId = request.id;
+    attendance.employeeName = request.name;
     attendance.attendanceDate = new Date();
     attendance.loginTime = new Date();
     await attendance.save();
@@ -42,6 +43,7 @@ export class AttendanceService {
     //response preparation
     const toResponse = {
       employeeID: attendance.employeeId,
+      employeeName:attendance.employeeName,
       attendanceDate: attendance.attendanceDate,
       loginTime: attendance.loginTime.toTimeString(),
     };
@@ -106,6 +108,28 @@ export class AttendanceService {
     attendanceRecords.forEach((record) => {
       workedHours += parseFloat(parseFloat(record.workingHours).toFixed(1));
     });
-    return { WokedHours: workedHours };
+
+// Get the integer part as hours
+const hours = Math.floor(workedHours);
+
+// Get the fractional part as minutes
+const minutes = Math.round((workedHours - hours) * 60);
+
+    return { WokedHours: `${hours} hours and ${minutes} minutes` };
+  }
+
+
+    async halfLeaveHours(id:string){
+const employe = await Employee.findOneBy({id})
+
+const decimalNumber = employe.halfLeaveMinutes/60
+// Get the integer part as hours
+const hours = Math.floor(decimalNumber);
+
+// Get the fractional part as minutes
+const minutes = Math.round((decimalNumber - hours) * 60);
+
+return { halfLeave: `${hours} hours and ${minutes} minutes`}
+
   }
 }

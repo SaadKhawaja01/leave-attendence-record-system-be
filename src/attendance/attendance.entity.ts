@@ -7,6 +7,8 @@ export class Attendance extends BaseEntity {
   @Column()
   employeeId: string;
   @Column()
+  employeeName: string;
+  @Column()
   attendanceDate: Date;
 
   @Column()

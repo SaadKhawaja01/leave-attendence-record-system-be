@@ -47,10 +47,33 @@ export class AdminService {
     attendanceRecords.forEach((record) => {
       //to get values like 5.5 (to skip other points values)
       workedHours += parseFloat(parseFloat(record.workingHours).toFixed(1));
+
+ 
+      
     });
-    return { WokedHours: workedHours };
+
+
+    const hours = Math.floor(workedHours);
+
+    // Get the fractional part as minutes
+    const minutes = Math.round((workedHours - hours) * 60);
+
+    return { WokedHours: `${hours} hours and ${minutes} minutes` };
   }
 
+  async halfLeaveHours(id:string){
+const employe = await Employee.findOneBy({id})
+
+const decimalNumber = employe.halfLeaveMinutes/60
+// Get the integer part as hours
+const hours = Math.floor(decimalNumber);
+
+// Get the fractional part as minutes
+const minutes = Math.round((decimalNumber - hours) * 60);
+
+return { halfLeave: `${hours} hours and ${minutes} minutes`}
+
+  }
   async leaveRecords() {
     const userData = await Employee.find();
     let data = userData.map((employee) => {
@@ -58,6 +81,7 @@ export class AdminService {
         EmployeeId: employee.id,
         EmployeeName: employee.name,
         EmployeeContact: employee.contact,
+        HalfLeaveHours: employee.halfLeaveMinutes/60,
         allowedEarnedLeaves: employee.allowedEarnedLeaves,
         consumedEarnedLeaves: employee.consumedEarnedLeaves,
         allowedCasualLeaves: employee.allowedCasualLeaves,
@@ -102,19 +126,51 @@ export class AdminService {
     // updating employee entity
     if (data.status === 'Accepted') {
       let employee = await Employee.findOneBy({ id: application.employeeId });
-      if (application.leaveType == 'earnedLeaves') {
-        employee.consumedEarnedLeaves += application.appliedLeaveDays;
-      } else if (application.leaveType == 'casualLeaves') {
-        employee.consumedCasualLeaves += application.appliedLeaveDays;
-      } else if (application.leaveType == 'compensatoryLeaves') {
-        employee.consumedCompensatoryLeaves += application.appliedLeaveDays;
-      }
 
-      await employee.save();
+      // if leave type is full
+      if (application.leaveType === 'full') {
+        if (application.descriptionLeave == 'Earned') {
+          employee.consumedEarnedLeaves += application.appliedLeaveDays;
+        } else if (application.descriptionLeave == 'Casual') {
+          employee.consumedCasualLeaves += application.appliedLeaveDays;
+        } else if (application.descriptionLeave == 'Compensatory') {
+          employee.consumedCompensatoryLeaves += application.appliedLeaveDays;
+        }
+        await employee.save();
+      } else {
+        //to get time difference in minutes
+        let differenceInMinutes = await this.getDifferenceInMinutes(
+          application.toDate,
+          application.fromDate,
+        );
+        employee.halfLeaveMinutes += differenceInMinutes;
+        await employee.save();
+      }
     }
 
     application.status = data.status;
     await application.save();
     return application;
+  }
+
+  getDifferenceInMinutes(toDate, fromDate) {
+
+    const toDateStr = toDate;
+    const fromDateStr = fromDate;
+
+    const toDateF = new Date(toDateStr);
+    const fromDateF = new Date(fromDateStr);
+
+    // Calculate the time values in milliseconds
+    const toDateMs = toDateF.getTime();
+    const fromDateMs = fromDateF.getTime();
+
+    // Calculate the time difference in milliseconds
+    const timeDifferenceMs = fromDateMs - toDateMs;
+
+    // Convert milliseconds to minutes
+    const timeDifferenceMinutes = timeDifferenceMs / (1000 * 60);
+
+    return timeDifferenceMinutes;
   }
 }

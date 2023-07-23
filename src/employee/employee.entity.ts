@@ -22,6 +22,9 @@ export class Employee extends BaseEntity {
   salary: number;
 
   @Column()
+  halfLeaveMinutes: number;
+
+  @Column()
   allowedEarnedLeaves: number;
   @Column({ default: 0 })
   consumedEarnedLeaves: number;

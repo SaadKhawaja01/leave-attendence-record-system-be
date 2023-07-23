@@ -76,4 +76,11 @@ export class AttendanceController {
       toDate,
     );
   }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Get('/half-leave-hours')
+  async halfLeaveHours( @Req() request, ) {
+    return await this.attendanceService.halfLeaveHours(request.user.id);
+  }
 }

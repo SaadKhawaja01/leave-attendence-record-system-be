@@ -119,17 +119,17 @@ const minutes = Math.round((workedHours - hours) * 60);
   }
 
 
-    async halfLeaveHours(id:string){
-const employe = await Employee.findOneBy({id})
+//     async halfLeaveHours(id:string){
+// const employe = await Employee.findOneBy({id})
 
-const decimalNumber = employe.halfLeaveMinutes/60
-// Get the integer part as hours
-const hours = Math.floor(decimalNumber);
+// const decimalNumber = employe.halfLeaveMinutes/60
+// // Get the integer part as hours
+// const hours = Math.floor(decimalNumber);
 
-// Get the fractional part as minutes
-const minutes = Math.round((decimalNumber - hours) * 60);
+// // Get the fractional part as minutes
+// const minutes = Math.round((decimalNumber - hours) * 60);
 
-return { halfLeave: `${hours} hours and ${minutes} minutes`}
+// return { halfLeave: `${hours} hours and ${minutes} minutes`}
 
-  }
+//   }
 }

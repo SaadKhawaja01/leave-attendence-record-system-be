@@ -55,10 +55,11 @@ export class AdminController {
   ) {
     return await this.adminService.workingHours(id, fromDate, toDate);
   }
-  @Get(':id/half-leave-hours')
-  async halfLeaveHours( @Param('id') id: string,) {
-    return await this.adminService.halfLeaveHours(id);
-  }
+  // @Get(':id/half-leave-hours')
+  // async halfLeaveHours( @Param('id') id: string,) {
+  //   return await this.adminService.halfLeaveHours(id);
+  // }
+
   @Get('leave-records')
   async leaveRecords() {
     return await this.adminService.leaveRecords();

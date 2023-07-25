@@ -47,11 +47,7 @@ export class AdminService {
     attendanceRecords.forEach((record) => {
       //to get values like 5.5 (to skip other points values)
       workedHours += parseFloat(parseFloat(record.workingHours).toFixed(1));
-
- 
-      
     });
-
 
     const hours = Math.floor(workedHours);
 
@@ -61,19 +57,18 @@ export class AdminService {
     return { WokedHours: `${hours} hours and ${minutes} minutes` };
   }
 
-  async halfLeaveHours(id:string){
-const employe = await Employee.findOneBy({id})
+  // async halfLeaveHours(id: string) {
+  //   const employe = await Employee.findOneBy({ id });
 
-const decimalNumber = employe.halfLeaveMinutes/60
-// Get the integer part as hours
-const hours = Math.floor(decimalNumber);
+  //   const decimalNumber = employe.halfLeaveMinutes / 60;
+  //   // Get the integer part as hours
+  //   const hours = Math.floor(decimalNumber);
 
-// Get the fractional part as minutes
-const minutes = Math.round((decimalNumber - hours) * 60);
+  //   // Get the fractional part as minutes
+  //   const minutes = Math.round((decimalNumber - hours) * 60);
 
-return { halfLeave: `${hours} hours and ${minutes} minutes`}
-
-  }
+  //   return { halfLeave: `${hours} hours and ${minutes} minutes` };
+  // }
   async leaveRecords() {
     const userData = await Employee.find();
     let data = userData.map((employee) => {
@@ -81,7 +76,7 @@ return { halfLeave: `${hours} hours and ${minutes} minutes`}
         EmployeeId: employee.id,
         EmployeeName: employee.name,
         EmployeeContact: employee.contact,
-        HalfLeaveHours: employee.halfLeaveMinutes/60,
+        HalfLeaveHours: employee.halfLeaveMinutes / 60,
         allowedEarnedLeaves: employee.allowedEarnedLeaves,
         consumedEarnedLeaves: employee.consumedEarnedLeaves,
         allowedCasualLeaves: employee.allowedCasualLeaves,
@@ -138,12 +133,18 @@ return { halfLeave: `${hours} hours and ${minutes} minutes`}
         }
         await employee.save();
       } else {
-        //to get time difference in minutes
-        let differenceInMinutes = await this.getDifferenceInMinutes(
-          application.toDate,
-          application.fromDate,
-        );
-        employee.halfLeaveMinutes += differenceInMinutes;
+        // if leave type is half
+     
+        if (application.descriptionLeave == 'Earned') {
+          employee.consumedEarnedLeaves += 0.5 * application.appliedLeaveDays;
+        } else if (application.descriptionLeave == 'Casual') {
+          console.log( employee.consumedCasualLeaves);
+          employee.consumedCasualLeaves += 0.5 * application.appliedLeaveDays;
+        } else if (application.descriptionLeave == 'Compensatory') {
+          employee.consumedCompensatoryLeaves +=
+            0.5 * application.appliedLeaveDays;
+        }
+      
         await employee.save();
       }
     }
@@ -153,24 +154,24 @@ return { halfLeave: `${hours} hours and ${minutes} minutes`}
     return application;
   }
 
-  getDifferenceInMinutes(toDate, fromDate) {
+  // getDifferenceInMinutes(toDate, fromDate) {
 
-    const toDateStr = toDate;
-    const fromDateStr = fromDate;
+  //   const toDateStr = toDate;
+  //   const fromDateStr = fromDate;
 
-    const toDateF = new Date(toDateStr);
-    const fromDateF = new Date(fromDateStr);
+  //   const toDateF = new Date(toDateStr);
+  //   const fromDateF = new Date(fromDateStr);
 
-    // Calculate the time values in milliseconds
-    const toDateMs = toDateF.getTime();
-    const fromDateMs = fromDateF.getTime();
+  //   // Calculate the time values in milliseconds
+  //   const toDateMs = toDateF.getTime();
+  //   const fromDateMs = fromDateF.getTime();
 
-    // Calculate the time difference in milliseconds
-    const timeDifferenceMs = fromDateMs - toDateMs;
+  //   // Calculate the time difference in milliseconds
+  //   const timeDifferenceMs = fromDateMs - toDateMs;
 
-    // Convert milliseconds to minutes
-    const timeDifferenceMinutes = timeDifferenceMs / (1000 * 60);
+  //   // Convert milliseconds to minutes
+  //   const timeDifferenceMinutes = timeDifferenceMs / (1000 * 60);
 
-    return timeDifferenceMinutes;
-  }
+  //   return timeDifferenceMinutes;
+  // }
 }

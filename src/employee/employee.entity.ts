@@ -24,18 +24,18 @@ export class Employee extends BaseEntity {
   @Column()
   halfLeaveMinutes: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   allowedEarnedLeaves: number;
-  @Column({ default: 0 })
+  @Column({ type: 'double', precision: 10, scale: 2 })
   consumedEarnedLeaves: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   allowedCasualLeaves: number;
-  @Column({ default: 0 })
+  @Column({ type: 'double', precision: 10, scale: 2 })
   consumedCasualLeaves: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   allowedCompensatoryLeaves: number;
-  @Column({ default: 0 })
+  @Column({ type: 'double', precision: 10, scale: 2 })
   consumedCompensatoryLeaves: number;
 }

@@ -14,21 +14,21 @@ export class Leave extends BaseEntity {
   @Column()
   leaveType: string;
 
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   allowedEarnedLeaves: number;
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   consumedEarnedLeaves: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   allowedCasualLeaves: number;
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   consumedCasualLeaves: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   allowedCompensatoryLeaves: number;
-  @Column()
+  @Column({ type: 'double', precision: 10, scale: 2 })
   consumedCompensatoryLeaves: number;
-  
+
   @Column()
   toDate: Date;
 

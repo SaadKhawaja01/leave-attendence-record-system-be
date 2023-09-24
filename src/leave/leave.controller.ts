@@ -1,6 +1,6 @@
 import { Body, Controller, Post,UseGuards} from '@nestjs/common';
-import { Get, Req } from '@nestjs/common/decorators';
-import { ApiTags,ApiBearerAuth } from '@nestjs/swagger';
+import { Get, Query, Req } from '@nestjs/common/decorators';
+import { ApiTags,ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { LeaveApplication } from './leave.model';
 
 import { LeaveService } from './leave.service';
@@ -25,5 +25,32 @@ export class LeaveController {
   @Post('/application')
   async application(@Req() request,@Body() data: LeaveApplication) {
     return await this.leaveService.application(data,request.user);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @ApiQuery({
+    name: 'fromDate',
+    required: false,
+    type: Date,
+    description: '2023-03-11 00:00:01',
+  })
+  @ApiQuery({
+    name: 'toDate',
+    required: false,
+    type: Date,
+    description: '2023-03-11 23:59:59',
+  })
+  @Get('accepted')
+  async acceptedApplications(
+    @Req() request,
+    @Query('fromDate') fromDate: Date,
+    @Query('toDate') toDate: Date,
+  ) {
+    return await this.leaveService.acceptedApplications(
+      request.user,
+      fromDate,
+      toDate,
+    );
   }
 }

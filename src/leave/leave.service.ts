@@ -3,6 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ILeaveApplication } from './leave.dto';
 import { Leave } from './leave.entity';
 import { Employee } from 'src/employee/employee.entity';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class LeaveService {
@@ -88,71 +89,15 @@ export class LeaveService {
     await application.save();
 
     return application;
+  }
 
-    //updating consumed leaves
-    // if (data.descriptionLeave == 'Casual') {
-    //   const Leavesdata = await Allowed.findOneBy({ leaveType: 'casualLeaves' });
+  async acceptedApplications(request: Employee, fromDate: Date, toDate: Date) {
+    const leaveRecords = await Leave.findBy({
+      employeeId: request.id,
+      status: 'Accepted',
+      fromDate: fromDate && toDate && Between(fromDate, toDate),
+    });
 
-    //to check remaining leaves is not zero
-    // if (Leavesdata.remainingLeaves - diff < 0) {
-    //   throw new HttpException(
-    //     'Maximum leaves consumed!',
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    // }
-    //updating data
-    //   Leavesdata.consumedLeaves += diff;
-    //   Leavesdata.remainingLeaves =
-    //     Leavesdata.allowedLeaves - Leavesdata.consumedLeaves;
-    //   await Leavesdata.save();
-    // } else if (data.descriptionLeave == 'Compensatory') {
-    //   const Leavesdata = await Allowed.findOneBy({
-    //     leaveType: 'compensatoryLeaves',
-    //   });
-
-    //to check remaining leaves is not zero
-    // if (Leavesdata.remainingLeaves - diff < 0) {
-    //   throw new HttpException(
-    //     'Maximum leaves consumed!',
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    // }
-    //updating data
-    //   Leavesdata.consumedLeaves += diff;
-    //   Leavesdata.remainingLeaves =
-    //     Leavesdata.allowedLeaves - Leavesdata.consumedLeaves;
-    //   await Leavesdata.save();
-    // } else {
-    //   const Leavesdata = await Allowed.findOneBy({ leaveType: 'earnedLeaves' });
-
-    //to check remaining leaves is not zero
-    // if (Leavesdata.remainingLeaves - diff < 0) {
-    //   throw new HttpException(
-    //     'Maximum leaves consumed!',
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    // }
-    //updating data
-    //   Leavesdata.consumedLeaves += diff;
-    //   Leavesdata.remainingLeaves =
-    //     Leavesdata.allowedLeaves - Leavesdata.consumedLeaves;
-    //   await Leavesdata.save();
-    // }
-
-    //creation of new application
-    // const leave = new Leave();
-    // leave.toDate = data.toDate;
-    // leave.fromDate = data.fromDate;
-    // leave.leaveType = data.leaveType;
-    // leave.descriptionLeave = data.descriptionLeave;
-    // leave.reason = data.reason;
-    // await leave.save();
-
-    // const allowedLeavesData = await Allowed.find();
-
-    // return {
-    //   ...leave,
-    //   leaveinfo: allowedLeavesData,
-    // };
+    return leaveRecords;
   }
 }
